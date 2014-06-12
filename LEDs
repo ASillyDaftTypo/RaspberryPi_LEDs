@@ -1,0 +1,40 @@
+import RPi.GPIO as GPIO		#these two lines import modules necessary to operate
+import time				#GPIO commands and time-based pauses
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(11, GPIO.OUT)
+GPIO.setup(13, GPIO.OUT)
+GPIO.setup(15, GPIO.OUT)		#selected GPIO pins are assigned to output signals
+GPIO.output(11, False)
+GPIO.output(13, False)
+GPIO.output(15, False)			#selected GPIO pins are switched off
+nb = input('Choose mode: ')		#user is prompted for text input with a popup
+print("Mode selected:")
+print(nb)				#program confirms the selection
+
+def function(nb):				#function nb is defined on subsequent lines
+	if nb == '1' :				#if "1" was typed, this section is run
+		for x in range(0,100):		#sets a loop that will run 100 times
+			GPIO.output(11, True)	#pin is switched on
+			time.sleep(0.0015)	#pause of 0.0015 seconds before next line
+			GPIO.output(11, False)	#pin is switched off
+			time.sleep(0.0185)	#another pause in code before loop continues
+	elif nb == '2' :				#if "2" was typed, this section is run
+		GPIO.output(13, True)
+	elif nb =='3' :				#if "3" was typed, this section is run
+		GPIO.output(15, True)
+	elif nb == '4' :				#if "4" was typed, this section is run
+		for x in range(0,50):		#sets loop that will run 50 times
+			GPIO.output(11, True)
+			GPIO.output(13, True)
+			GPIO.output(15, False)	#pins are powered in sequence
+			time.sleep(0.2)		#timed interval before next sequence
+			GPIO.output(11, False)
+			GPIO.output(15, True)	#two pins change, one remains unchanged
+			time.sleep(0.2)
+			GPIO.output(11, True)
+			GPIO.output(13, False)	#repeat of last operation for different pins
+			time.sleep(0.2)
+
+	else:					#should no character be typed, or one not in the
+		print("None")			#range of 1-4, "None" is returned to user
+function(nb)					#function is run after being defined
